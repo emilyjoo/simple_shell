@@ -1,53 +1,127 @@
 #include "shell.h"
 
+void sig_handler(int sig);
+int execute(char **args, char **front);
+
 /**
- * prompt - displays the prompt for stdin
- * @av: argument vector
- * @env: environment variable
+ * sig_handler-New prompt signal
+ * @sig: Signal
  */
-
-void prompt(char **av, char **env)
+void sig_handler(int sig)
 {
-	char *str_input = NULL;
-	int i, j, position;
-	size_t n = 0;
-	ssize_t num_char;
-	char *argv[] = {NULL, NULL};
-	pid_t child_process;
+	char *prompt = "\n#our_shell$ ";
 
-	while (1)
+	(void)sig;
+	signal(SIGINT, sig_handler);
+	write(STDIN_FILENO, prompt, 10);
+}
+
+/**
+ * execute-Executes a Command in a child process using fork.
+ * @args:An array of arguments.
+ * @front:2 pointer to the Debus of arguments.
+ *
+ * Return:Error code.
+ *         O/w.
+ */
+int execute(char **args, char **front)
+{
+	pid_t child_process;
+	int position, i = 0, j = 0;
+	char *command = args[0];
+
+	if (command[0] != '/' && command[0] != '.')
 	{
-		if (isatty(STDIN_FILENO))
-			printf("#our_shell$ ");
-		num_char = getline(&str_input, &n, stdin);
-		if (num_char == -1)
-		{
-			free(str_input);
-			exit(EXIT_FAILURE);
-		}
-		i = 0;
-		while (str_input[i])
-		{
-			if (str_input[i] == '\n')
-				str_input[i] = 0;
-			i++;
-		}
-		j = 0;
-		argv[j] = strtok(str_input, " ");
-		while (argv[j])
-			argv[++j] = strtok(NULL, " ");
+		i = 1;
+		command = get_location(command);
+	}
+
+	if (!command || (access(command, F_OK) == -1))
+	{
+		if (errno == EACCES)
+			j = (create_error(args, 126));
+		else
+			j = (create_error(args, 127));
+	}
+	else
+	{
 		child_process = fork();
 		if (child_process == -1)
 		{
-			free(str_input);
-			exit(EXIT_FAILURE);
+			if (i)
+				free(command);
+			perror("Error child process:");
+			return (1);
 		}
 		if (child_process == 0)
 		{
-			if (execve(argv[0], argv, env) == -1)
-				printf("%s: No such file or directory\n", av[0]);
+			execve(command, args, environ);
+			if (errno == EACCES)
+				j = (create_error(args, 126));
+			free_env();
+			free_args(args, front);
+			free_alias_list(aliases);
+			_exit(j);
 		}
 		else
+		{
 			wait(&position);
+			ret = WEXITSTATUS(position);
+		}
 	}
+	if (i)
+		free(command);
+	return (j);
+}
+
+/**
+ * main - A simple UNIX command interpreter.
+ * @argc: The number of arguments supplied.
+ * @argv: An array of pointers to the arguments.
+ *
+ * Return:Last executed command.
+ */
+int main(int argc, char *argv[])
+{
+	int i = 0, n;
+	int *exeret = &n;
+	char *prompt = "#our_shell$ ", *line = "\n";
+
+	name = argv[0];
+	hist = 1;
+	aliases = NULL;
+	signal(SIGINT, sig_handler);
+
+	*exeret = 0;
+	environ = _copyenv();
+	if (!environ)
+		exit(-100);
+
+
+	if (!isatty(STDIN_FILENO))
+	{
+		while (i != END_OF_FILE && i != EXIT)
+			i = handle_args(exeret);
+		free_env();
+		free_alias_list(aliases);
+		return (*exeret);
+	}
+
+	while (1)
+	{
+		write(STDOUT_FILENO, prompt, 10);
+		i = handle_args(exeret);
+		if (i == END_OF_FILE || i == EXIT)
+		{
+			if (i == END_OF_FILE)
+				write(STDOUT_FILENO, line, 10);
+			free_env();
+			free_alias_list(aliases);
+			exit(*exeret);
+		}
+	}
+
+	free_env();
+	free_alias_list(aliases);
+	return (*exeret);
 }
