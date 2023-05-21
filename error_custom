@@ -1,37 +1,8 @@
 #include "shell.h"
 
-int num_len(int num);
+int number_count(int num);
 char *_itoa(int num);
-int create_error(char **args, int err);
-
-/**
- * num_len-Count the digital length of a num.
- * @num: The number to be count.
- *
- * Return:length.
- */
-int num_len(int num)
-{
-	unsigned int numone;
-	int length = 1;
-
-	if (num < 0)
-	{
-		length++;
-		numone = num * -1;
-	}
-	else
-	{
-		numone = num;
-	}
-	while (numone > 9)
-	{
-		length++;
-		numone /= 10;
-	}
-
-	return (length);
-}
+int costum_error(char **args, int err);
 
 /**
  * _itoa - Converture int to string.
@@ -42,7 +13,7 @@ int num_len(int num)
 char *_itoa(int num)
 {
 	char *cs;
-	int len = num_len(num);
+	int len = number_count(num);
 	unsigned int numone;
 
 	cs = malloc(sizeof(char) * (len + 1));
@@ -73,31 +44,31 @@ char *_itoa(int num)
 
 
 /**
- * create_error - Custom Error message .
+ * costum_error- Custom Error message .
  * @args:An array of arguments.
  * @err:The Error value.
  *
  * Return:The Error value.
  */
-int create_error(char **args, int err)
+int costum_error(char **args, int err)
 {
 	char *e;
 
 	switch (err)
 	{
 	case -1:
-		e = error_env(args);
+		e = nv_error(args);
 		break;
 	case 1:
-		e = error_1(args);
+		e = alias_error(args);
 		break;
 	case 2:
 		if (*(args[0]) == 'e')
-			e = error_2_exit(++args);
+			e = exit_error(++args);
 		else if (args[0][0] == ';' || args[0][0] == '&' || args[0][0] == '|')
-			e = error_2_syntax(args);
+			e = syntax_error(args);
 		else
-			e = error_2_cd(args);
+			e = cd_error(args);
 		break;
 	case 126:
 		e = error_126(args);
@@ -112,4 +83,33 @@ int create_error(char **args, int err)
 		free(e);
 	return (err);
 
+}
+
+/**
+ * num_len-Count the digital length of a num.
+ * @num: The number to be count.
+ *
+ * Return:length.
+ */
+int number_count(int num)
+{
+	unsigned int numone;
+	int length = 1;
+
+	if (num < 0)
+	{
+		length++;
+		numone = num * -1;
+	}
+	else
+	{
+		numone = num;
+	}
+	while (numone > 9)
+	{
+		length++;
+		numone /= 10;
+	}
+
+	return (length);
 }

@@ -1,60 +1,15 @@
 #include "shell.h"
 
-char *fill_path_dir(char *path);
-list_t *get_path_dir(char *path);
+char *fillpath(char *path);
+list_t *_dirpath(char *path);
 
 /**
- * get_location - Find the PATH.
- * @command: The command to find.
- *
- * Return: NULL.
- *         Full pathname.
- */
-char *get_location(char *command)
-{
-	char **path, *tp;
-	list_t *d, *h;
-	struct stat sts;
-
-	path = _getenv("PATH");
-	if (!path || !(*path))
-		return (NULL);
-
-	d = get_path_dir(*path + 5);
-	h = d;
-
-	while (d)
-	{
-		tp = malloc(_strlen(d->dir) + _strlen(command) + 2);
-		if (!tp)
-			return (NULL);
-
-		_strcpy(tp, d->dir);
-		_strcat(tp, "/");
-		_strcat(tp, command);
-
-		if (stat(tp, &sts) == 0)
-		{
-			free_list(h);
-			return (tp);
-		}
-
-		d = d->next;
-		free(tp);
-	}
-
-	free_list(h);
-
-	return (NULL);
-}
-
-/**
- * fill_path_dir - Copie Path
+ * fillpath - Copie Path
  * @path: The colon Separated list of dir.
  *
  * Return: Path copy.
  */
-char *fill_path_dir(char *path)
+char *fillpath(char *path)
 {
 	int i, len = 0;
 	char *cp_path, *pwd;
@@ -102,18 +57,18 @@ char *fill_path_dir(char *path)
 }
 
 /**
- * get_path_dir - Tokenizes a colon Separated list.
+ * _dirpath - Tokenizes a colon Separated list.
  * @path:Colon Separated list of dir.
  *
  * Return: head.
  */
-list_t *get_path_dir(char *path)
+list_t *dirpath(char *path)
 {
 	int i;
 	char **d, *cp_path;
 	list_t *hd = NULL;
 
-	cp_path = fill_path_dir(path);
+	cp_path = fillpath(path);
 	if (!cp_path)
 		return (NULL);
 	d = _strtok(cp_path, ":");
@@ -134,4 +89,50 @@ list_t *get_path_dir(char *path)
 	free(d);
 
 	return (hd);
+}
+
+/**
+ * get_path - Find the PATH.
+ * @command: The command to find.
+ *
+ * Return: NULL.
+ *         Full pathname.
+ */
+
+char *get_path(char *command)
+{
+	char **path, *tp;
+	list_t *d, *h;
+	struct stat sts;
+
+	path = _getenv("PATH");
+	if (!path || !(*path))
+		return (NULL);
+
+	d = _dirpath(*path + 5);
+	h = d;
+
+	while (d)
+	{
+		tp = malloc(_strlen(d->dir) + _strlen(command) + 2);
+		if (!tp)
+			return (NULL);
+
+		_strcpy(tp, d->dir);
+		_strcat(tp, "/");
+		_strcat(tp, command);
+
+		if (stat(tp, &sts) == 0)
+		{
+			free_list(h);
+			return (tp);
+		}
+
+		d = d->next;
+		free(tp);
+	}
+
+	free_list(h);
+
+	return (NULL);
 }

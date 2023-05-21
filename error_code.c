@@ -4,7 +4,7 @@ char *error_126(char **args);
 char *error_127(char **args);
 
 /**
- * error_126 -Error message for permission denied fail.
+ * error_126 -Error message for execute denied.
  * @args:An array of arguments passed to the command.
  *
  * Return:Error.
@@ -31,14 +31,14 @@ char *error_126(char **args)
 	_strcat(er, hstr);
 	_strcat(er, ": ");
 	_strcat(er, args[0]);
-	_strcat(er, ": Permission Denied\n");
+	_strcat(er, ": Command invoked cannot execute.\n");
 
 	free(hstr);
 	return (er);
 }
 
 /**
- * error_127 -Error message for command not found fail.
+ * error_127 -Error message for command not found.
  * @args: An array of arguments passed to the command.
  *
  * Return: Error.
@@ -65,7 +65,7 @@ char *error_127(char **args)
 	_strcat(er, hist_str);
 	_strcat(er, ": ");
 	_strcat(er, args[0]);
-	_strcat(er, ": Not Found\n");
+	_strcat(er, ": Command not found.\n");
 
 	free(hstr);
 	return (er);
