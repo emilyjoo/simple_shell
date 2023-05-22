@@ -55,7 +55,7 @@ int costum_error(char **args, int err)
 	switch (err)
 	{
 	case -1:
-		e = nv_error(args);
+		e = env_error(args);
 		break;
 	case 1:
 		e = alias_error(args);
