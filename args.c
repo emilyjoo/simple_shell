@@ -17,7 +17,7 @@ char *get_args(char *line, int *exe_ret)
 	if (line)
 		free(line);
 
-	read = _getline(&line, &n, STDIN_FILENO);
+	read = get_line(&line, &n, STDIN_FILENO);
 	if (r == -1)
 		return (NULL);
 	if (r == 1)
