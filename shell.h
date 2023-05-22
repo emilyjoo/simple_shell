@@ -17,9 +17,9 @@
 /* Global env */
 extern char **environ;
 /* Global program */
-char *name;
+extern char *name;
 /* Global counter */
-int hist;
+extern int hist;
 
 /**
  * struct list_s - Struct type defining a linked list.
