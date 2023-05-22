@@ -93,14 +93,14 @@ int main(int argc, char *argv[])
 	signal(SIGINT, sig_handler);
 
 	*exeret = 0;
-	environ = _copyenv();
+	environ = copy_env();
 	if (!environ)
 		exit(-100);
 
        if (argc != 1)
 	{
-		ret = proc_file_commands(argv[1], exe_ret);
-		free_env();
+		i = proc_file_commands(argv[1], exeret);
+		_freeenv();
 		free_alias_list(aliases);
 		return (*exe_ret);
 	}
