@@ -21,7 +21,7 @@ char *alias_error(char **args)
 	_strcat(er, args[0]);
 	_strcat(er, " Not Found\n");
 
-	return (error);
+	return (er);
 }
 
 /**
@@ -125,7 +125,7 @@ char *exit_error(char **args)
 
 	_strcpy(er, name);
 	_strcat(er, ": ");
-	_strcat(er, hist_str);
+	_strcat(er, hstr);
 	_strcat(er, ": Exit, Illegal Number: ");
 	_strcat(er, args[0]);
 	_strcat(er, "\n");
@@ -142,7 +142,7 @@ char *exit_error(char **args)
  */
 char *syntax_error(char **args)
 {
-	char *er, *histr;
+	char *er, *hstr;
 	int len;
 
 	hstr = _itoa(hist);
@@ -165,5 +165,5 @@ char *syntax_error(char **args)
 	_strcat(er, "\" Unexpected\n");
 
 	free(hstr);
-	return (Error);
+	return (er);
 }
