@@ -66,7 +66,7 @@ int execute(char **args, char **front)
 		else
 		{
 			wait(&position);
-			ret = WEXITSTATUS(position);
+			j = WEXITSTATUS(position);
 		}
 	}
 	if (i)
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 		i = proc_file_commands(argv[1], exeret);
 		_freeenv();
 		free_alias_list(aliases);
-		return (*exe_ret);
+		return (*exeret);
 	}
 
 
