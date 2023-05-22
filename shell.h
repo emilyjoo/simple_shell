@@ -70,8 +70,8 @@ int _strncmp(const char *s1, const char *s2, size_t n);
 ssize_t get_line(char **lineptr, size_t *n, FILE *stream);
 void *re_alloc(void *ptr, unsigned int past_size, unsigned int current_size);
 char **str_tok(char *line, char *delim);
-char *get_location(char *command);
-list_t *get_path_dir(char *path);
+char *get_path(char *command);
+list_t *_dirpath(char *path);
 int execute(char **args, char **front);
 void free_list(list_t *head);
 char *_itoa(int num);
@@ -87,12 +87,12 @@ void free_args(char **args, char **front);
 char **replace_aliases(char **args);
 
 /* Error Handling */
-int create_error(char **args, int err);
-char *error_env(char **args);
-char *error_1(char **args);
-char *error_2_exit(char **args);
-char *error_2_cd(char **args);
-char *error_2_syntax(char **args);
+int costum_error(char **args, int err);
+char *env_error(char **args);
+char *alias_error(char **args);
+char *exit_error(char **args);
+char *cd_error(char **args);
+char *syntax_error(char **args);
 char *error_126(char **args);
 char *error_127(char **args);
 
@@ -109,9 +109,9 @@ int unsetenv_cmd(char **args, char **front);
 int cd_cmd(char **args, char **front);
 int alias_cmd(char **args, char **front);
 int shell_help(char **args, char **front);
-char **_copyenv(void);
-void free_env(void);
-char **_getenv(const char *var);
+char **copy_env(void);
+void _freeenv(void);
+char **get_env(const char *var);
 
 void help_all(void);
 void help_alias(void);
