@@ -33,15 +33,15 @@ int execute(char **args, char **front)
 	if (command[0] != '/' && command[0] != '.')
 	{
 		i = 1;
-		command = get_location(command);
+		command = get_path(command);
 	}
 
 	if (!command || (access(command, F_OK) == -1))
 	{
 		if (errno == EACCES)
-			j = (create_error(args, 126));
+			j = (costum_error(args, 126));
 		else
-			j = (create_error(args, 127));
+			j = (costum_error(args, 127));
 	}
 	else
 	{
@@ -57,8 +57,8 @@ int execute(char **args, char **front)
 		{
 			execve(command, args, environ);
 			if (errno == EACCES)
-				j = (create_error(args, 126));
-			free_env();
+				j = (costum_error(args, 126));
+			_freeenv();
 			free_args(args, front);
 			free_alias_list(aliases);
 			_exit(j);
@@ -75,7 +75,7 @@ int execute(char **args, char **front)
 }
 
 /**
- * main - A simple UNIX command interpreter.
+ * main - Simple UNIX command interpreter.
  * @argc: The number of arguments supplied.
  * @argv: An array of pointers to the arguments.
  *
@@ -97,12 +97,20 @@ int main(int argc, char *argv[])
 	if (!environ)
 		exit(-100);
 
+       if (argc != 1)
+	{
+		ret = proc_file_commands(argv[1], exe_ret);
+		free_env();
+		free_alias_list(aliases);
+		return (*exe_ret);
+	}
+
 
 	if (!isatty(STDIN_FILENO))
 	{
 		while (i != END_OF_FILE && i != EXIT)
 			i = handle_args(exeret);
-		free_env();
+		_freeenv();
 		free_alias_list(aliases);
 		return (*exeret);
 	}
@@ -115,13 +123,13 @@ int main(int argc, char *argv[])
 		{
 			if (i == END_OF_FILE)
 				write(STDOUT_FILENO, line, 10);
-			free_env();
+			_freeenv();
 			free_alias_list(aliases);
 			exit(*exeret);
 		}
 	}
 
-	free_env();
+	_freeenv();
 	free_alias_list(aliases);
 	return (*exeret);
 }
