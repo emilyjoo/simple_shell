@@ -1,8 +1,6 @@
 #include "shell.h"
 
 int number_count(int num);
-char *_itoa(int num);
-int costum_error(char **args, int err);
 
 /**
  * _itoa - Converture int to string.
