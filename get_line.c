@@ -13,7 +13,7 @@ ssize_t get_line(char **lineptr, size_t *n, FILE *stream);
  *	ptr is not NULL.
  *	otherwise - a pointer to the reallocated mem block
  */
-void re_alloc(void *ptr, unsigned int past_size, unsigned int current_size)
+void *re_alloc(void *ptr, unsigned int past_size, unsigned int current_size)
 {
 	char *ptr_cp, *add;
 	unsigned int idx;
