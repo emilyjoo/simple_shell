@@ -1,5 +1,9 @@
 #include "shell.h"
 
+void *re_alloc(void *ptr, unsigned int past_size, unsigned int current_size);
+void assign_lineptr(char **lineptr, size_t *n, char *buff, size_t n_str);
+ssize_t get_line(char **lineptr, size_t *n, FILE *stream);
+
 /**
  * re_alloc - reallocates a memory block using malloc and free.
  * @ptr: pointer to the mem previously allocated
