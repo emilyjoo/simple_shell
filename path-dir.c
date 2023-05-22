@@ -71,7 +71,7 @@ list_t *dirpath(char *path)
 	cp_path = fillpath(path);
 	if (!cp_path)
 		return (NULL);
-	d = _strtok(cp_path, ":");
+	d = str_tok(cp_path, ":");
 	free(cp_path);
 	if (!d)
 		return (NULL);
