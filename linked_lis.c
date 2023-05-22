@@ -1,9 +1,5 @@
 #include "shell.h"
 
-alias_t *add_alias_end(alias_t **head, char *name, char *value);
-void free_alias_list(alias_t *head);
-list_t *add_node_end(list_t **head, char *dir);
-void free_list(list_t *head);
 
 /**
  * add_alias_end -Adds Node alias.
@@ -26,7 +22,7 @@ alias_t *add_alias_end(alias_t **head, char *name, char *value)
 	node->name = malloc(sizeof(char) * (_strlen(name) + 1));
 	if (!node->name)
 	{
-		free(nnode);
+		free(node);
 		return (NULL);
 	}
 	node->value = value;
@@ -87,7 +83,7 @@ void free_alias_list(alias_t *head)
 
 	while (head)
 	{
-		nx = head->nx;
+		nx = head->next;
 		free(head->name);
 		free(head->value);
 		free(head);
@@ -105,7 +101,7 @@ void free_list(list_t *head)
 
 	while (head)
 	{
-		nx = head->nx;
+		nx = head->next;
 		free(head->dir);
 		free(head);
 		head = nx;
