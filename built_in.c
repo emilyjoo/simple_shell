@@ -134,7 +134,7 @@ int cd_cmd(char **args, char __attribute__((__unused__)) **front)
 	if (!df)
 		return (-1);
 	df[0] = "OLDPWD";
-	df[1] = odwd;
+	df[1] = opwd;
 	if (setenv_cmd(df, df) == -1)
 		return (-1);
 	df[0] = "PWD";
