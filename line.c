@@ -1,5 +1,9 @@
 #include "shell.h"
 
+ssize_t calc_len(char *line);
+void check_logical_ops(char *line, ssize_t *new_len);
+void handle_line(char **line, ssize_t read);
+
 /**
  * calc_len - calculates the new length of a line separated by ";", "||",
  * "&&&", or "#"
