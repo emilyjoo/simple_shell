@@ -1,5 +1,9 @@
 #include "shell.h"
 
+int token_size(char *str, char *delim);
+int record_tokens(char *str, char *delim);
+char **str_tok(char *line, char *delim);
+
 /**
  * token_size -identifies the delimeter position, marks the end
  *	of the first token within an input string
