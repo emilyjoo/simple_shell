@@ -14,7 +14,7 @@ char *fillpath(char *path)
 	int i, len = 0;
 	char *cp_path, *pwd;
 
-	pwd = *(_getenv("PWD")) + 4;
+	pwd = *(get_env("PWD")) + 4;
 	for (i = 0; path[i]; i++)
 	{
 		if (path[i] == ':')
@@ -105,7 +105,7 @@ char *get_path(char *command)
 	list_t *d, *h;
 	struct stat sts;
 
-	path = _getenv("PATH");
+	path = get_env("PATH");
 	if (!path || !(*path))
 		return (NULL);
 
