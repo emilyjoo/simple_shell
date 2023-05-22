@@ -40,7 +40,7 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t z;
 
-	for (z = 0; s1[z] && s2[z] && i < n; z++)
+	for (z = 0; s1[z] && s2[z] && z < n; z++)
 	{
 		if (s1[z] > s2[z])
 			return (s1[z] - s2[z]);
