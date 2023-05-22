@@ -61,7 +61,7 @@ int shell_exit(char **args, char **front)
 			if (i <= leni && args[0][i] >= '0' && args[0][i] <= '9')
 				n = (n * 10) + (args[0][i] - '0');
 			else
-				return (create_error(--args, 2));
+				return (costum_error(--args, 2));
 		}
 	}
 	else
@@ -69,10 +69,10 @@ int shell_exit(char **args, char **front)
 		return (-3);
 	}
 	if (n > x - 1)
-		return (create_error(--args, 2));
+		return (costum_error(--args, 2));
 	args -= 1;
 	free_args(args, front);
-	free_env();
+	_freeenv();
 	free_alias_list(aliases);
 	exit(n);
 }
@@ -101,13 +101,13 @@ int cd_cmd(char **args, char **front)
 			if ((args[0][1] == '-' && args[0][2] == '\0') ||
 			    args[0][1] == '\0')
 			{
-				if (_getenv("OLDPWD") != NULL)
-					(chdir(*_getenv("OLDPWD") + 7));
+				if (get_env("OLDPWD") != NULL)
+					(chdir(*get_env("OLDPWD") + 7));
 			}
 			else
 			{
 				free(opwd);
-				return (create_error(args, 2));
+				return (costum_error(args, 2));
 			}
 		}
 		else
@@ -118,14 +118,14 @@ int cd_cmd(char **args, char **front)
 			else
 			{
 				free(opwd);
-				return (create_error(args, 2));
+				return (costum_error(args, 2));
 			}
 		}
 	}
 	else
 	{
-		if (_getenv("HOME") != NULL)
-			chdir(*(_getenv("HOME")) + 5);
+		if (get_env("HOME") != NULL)
+			chdir(*(get_env("HOME")) + 5);
 	}
 	pwd = getcwd(pwd, 0);
 	if (!pwd)
