@@ -62,7 +62,7 @@ char *error_127(char **args)
 
 	_strcpy(er, name);
 	_strcat(er, ": ");
-	_strcat(er, hist_str);
+	_strcat(er, hstr);
 	_strcat(er, ": ");
 	_strcat(er, args[0]);
 	_strcat(er, ": Command not found.\n");
