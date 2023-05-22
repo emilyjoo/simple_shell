@@ -85,7 +85,7 @@ int shell_exit(char **args, char **front)
  *          -1.
  *         Otherwise - 0.
  */
-int cd_cmd(char **args, char **front)
+int cd_cmd(char **args, char __attribute__((__unused__)) **front)
 {
 	char **df, *nline = "\n";
 	char *opwd = NULL, *pwd = NULL;
@@ -134,7 +134,7 @@ int cd_cmd(char **args, char **front)
 	if (!df)
 		return (-1);
 	df[0] = "OLDPWD";
-	df[1] = oldpwd;
+	df[1] = odwd;
 	if (setenv_cmd(df, df) == -1)
 		return (-1);
 	df[0] = "PWD";
@@ -159,7 +159,7 @@ int cd_cmd(char **args, char **front)
  * Return:  -1.
  *         Otherwise - 0.
  */
-int shell_help(char **args, char **front)
+int shell_help(char **args, char __attribute__((__unused__)) **front)
 {
 	if (!args[0])
 		help_all();
