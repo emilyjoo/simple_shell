@@ -168,7 +168,7 @@ int handle_args(int *exe_ret)
 	if (!line)
 		return (END_OF_FILE);
 
-	args = _strtok(line, " ");
+	args = str_tok(line, " ");
 	free(line);
 	if (!args)
 		return (ret);
