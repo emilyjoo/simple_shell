@@ -1,9 +1,5 @@
 #include "shell.h"
 
-char *alias_error(char **args)
-char *env_error(char **args)
-char *cd_error(char **args)
-char *exit_error(char **args)
 
 /**
  * alias_error-Error message for Alias.
