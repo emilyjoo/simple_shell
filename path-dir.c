@@ -62,7 +62,7 @@ char *fillpath(char *path)
  *
  * Return: head.
  */
-list_t *dirpath(char *path)
+list_t *_dirpath(char *path)
 {
 	int i;
 	char **d, *cp_path;
