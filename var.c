@@ -56,7 +56,7 @@ char *get_env_value(char *beginning, int len)
 	var[0] = '\0';
 	_strncat(var, beginning, len);
 
-	var_addr = _getenv(var);
+	var_addr = get_env(var);
 	free(var);
 	if (var_addr)
 	{

@@ -17,7 +17,7 @@ char *get_args(char *line, int *exe_ret)
 	if (line)
 		free(line);
 
-	read = get_line(&line, &n, STDIN_FILENO);
+	r = get_line(&line, &n, STDIN_FILENO);
 	if (r == -1)
 		return (NULL);
 	if (r == 1)
@@ -108,10 +108,10 @@ int check_args(char **args)
 		if (curr[0] == ';' || curr[0] == '&' || curr[0] == '|')
 		{
 			if (i == 0 || curr[1] == ';')
-				return (create_error(&args[i], 2));
+				return (costum_error(&args[i], 2));
 			_next = args[i + 1];
 			if (_next && (_next[0] == ';' || _next[0] == '&' || _next[0] == '|'))
-				return (create_error(&args[i + 1], 2));
+				return (costum_error(&args[i + 1], 2));
 		}
 	}
 	return (0);

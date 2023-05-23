@@ -85,3 +85,4 @@ char **str_tok(char *lineptr, char *delim)
 	ptr[t + 1] = NULL;
 
 	return (ptr);
+}
